@@ -260,3 +260,11 @@ a.proj:hover .more{color:#c4a5ff}
 .tl-item::before{left:-26px}
 .edu-sum .gpa{text-align:left}
 }
+
+/* AUTO STATUS (status.js) */
+.pill.status[data-state=planned]{background:transparent;color:var(--purple);box-shadow:inset 0 0 0 1px var(--purple)}
+.pill.status[data-state=planned]::before,.pill.switched::before{display:none}
+.pill.status[data-state=done]{display:none}
+.courses span[data-state=planned]{background:transparent;box-shadow:inset 0 0 0 1px rgba(196,165,255,.7)}
+.courses span[data-state=current]::after{content:" · in progress";opacity:.75}
+.courses span[data-state=planned]::after{content:" · planned";opacity:.75}
