@@ -275,3 +275,9 @@ a.proj:hover .more{color:#c4a5ff}
 
 /* lone last project card centered */
 @media(min-width:981px){.grid>.proj:last-child:nth-child(3n+1){grid-column:2}}
+
+/* links between experience and projects */
+.related{margin-top:14px;padding-top:12px;border-top:1px solid #eee;font-size:14px;color:var(--muted)}
+.related a{font-family:'Josefin Sans';font-weight:600;color:var(--purple);margin-left:12px;border-bottom:1px solid #c4a5ff}
+.related a:hover{color:var(--purple-d)}
+a.inline{color:var(--purple);font-weight:600;border-bottom:1px solid #c4a5ff;white-space:nowrap}
