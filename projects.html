@@ -30,7 +30,7 @@
 <span class="eyebrow">Selected Works</span>
 <h1>Project <span>Details</span></h1>
 <p>What each project is, what I did on it, and the tools behind it.</p>
-<div class="jump"><a href="#modumidi">ModμMIDI²</a><a href="#cat-feeder">Automatic Cat Feeder</a><a href="#bach">Bach</a><a href="#computer-repair">Computer Repair</a><a href="#accessibility">Accessibility Research</a><a href="#ai-ethics">AI Ethics Course</a></div>
+<div class="jump"><a href="#modumidi">ModμMIDI²</a><a href="#ring-modulator">Ring Modulator</a><a href="#cat-feeder">Automatic Cat Feeder</a><a href="#bach">Bach</a><a href="#computer-repair">Computer Repair</a><a href="#accessibility">Accessibility Research</a><a href="#ai-ethics">AI Ethics Course</a></div>
 </div>
 </header>
 
@@ -48,7 +48,22 @@
 </div>
 </div></section>
 
-<section class="sec alt" id="cat-feeder"><div class="wrap pd">
+<section class="sec alt" id="ring-modulator"><div class="wrap pd">
+<div class="art"><svg viewBox="0 0 64 64"><path d="M6 22c4.5-11 10.5-11 15 0s10.5 11 15 0 10.5-11 15 0"/><path d="M6 52V40h7v12h7V40h7v12h7V40h7v12h7V40h6"/></svg></div>
+<div>
+<span class="tag">Hardware · Personal Project</span>
+<h2>Smart Ring Modulator <span class="pill">In progress</span></h2>
+<div class="meta">Oct 2026 – Present · ESP32 · LibrePCB · FreeCAD</div>
+<p>A guitar ring modulator pedal built around an ESP32 DevKit and powered from USB-C. A classic transformer-and-diode ring multiplies the guitar by a carrier, and the ESP32 generates that carrier, adds a digital effects mode, and runs an OLED and rotary encoder.</p>
+<h4>What I built</h4>
+<ul><li>Designed the schematic and laid out and routed a 100 × 75 mm through-hole PCB in LibrePCB.</li><li>Analog multiplier: two center-tapped 600:600 transformers around a four-diode ring, fed by a 1 MΩ MCP6002 input buffer.</li><li>ESP32 square-wave carrier from DAC1 with a pot for frequency, plus a digital path (ADC in, DAC out through an RC low-pass).</li><li>Modeled a 3D-printed enclosure in FreeCAD.</li></ul>
+<h4>Skills &amp; tools</h4>
+<div class="chips"><span>PCB Design</span><span>LibrePCB</span><span>Analog Circuits</span><span>ESP32</span><span>Signal Processing</span><span>FreeCAD</span></div>
+<div class="links"><a class="btn" href="ring-modulator.html">See the PCB &amp; math →</a></div>
+</div>
+</div></section>
+
+<section class="sec" id="cat-feeder"><div class="wrap pd">
 <div class="art"><svg viewBox="0 0 64 64"><path d="M10 40h44l-5 12H15z"/><path d="M14 40c0-6 8-10 18-10s18 4 18 10"/><path d="M20 22c3-3 6-3 9 0M35 22c3-3 6-3 9 0"/><path d="M24 14c5-5 11-5 16 0"/></svg></div>
 <div>
 <span class="tag">Hardware + Software · Personal / Sensors Project</span>
@@ -62,7 +77,7 @@
 </div>
 </div></section>
 
-<section class="sec" id="bach"><div class="wrap pd">
+<section class="sec alt" id="bach"><div class="wrap pd">
 <div class="art"><svg viewBox="0 0 64 64"><path d="M24 46V14l26-6v32"/><circle cx="18" cy="46" r="6"/><circle cx="44" cy="40" r="6"/><path d="M24 24l26-6"/></svg></div>
 <div>
 <span class="tag">Software · Hackathon</span>
@@ -79,7 +94,7 @@
 </div>
 </div></section>
 
-<section class="sec alt" id="computer-repair"><div class="wrap pd">
+<section class="sec" id="computer-repair"><div class="wrap pd">
 <div class="art"><svg viewBox="0 0 64 64"><rect x="18" y="18" width="28" height="28" rx="3"/><rect x="25" y="25" width="14" height="14"/><path d="M24 18v-8M32 18v-8M40 18v-8M24 54v-8M32 54v-8M40 54v-8M18 24h-8M18 32h-8M18 40h-8M54 24h-8M54 32h-8M54 40h-8"/></svg></div>
 <div>
 <span class="tag">Hardware · Personal / Volunteer</span>
@@ -93,7 +108,7 @@
 </div>
 </div></section>
 
-<section class="sec" id="accessibility"><div class="wrap pd">
+<section class="sec alt" id="accessibility"><div class="wrap pd">
 <div class="art"><svg viewBox="0 0 64 64"><path d="M10 54h44"/><rect x="14" y="34" width="8" height="20"/><rect x="28" y="22" width="8" height="32"/><rect x="42" y="12" width="8" height="42"/></svg></div>
 <div>
 <span class="tag">Research · ACCESS Lab, UGA</span>
@@ -107,7 +122,7 @@
 </div>
 </div></section>
 
-<section class="sec alt" id="ai-ethics"><div class="wrap pd">
+<section class="sec" id="ai-ethics"><div class="wrap pd">
 <div class="art"><svg viewBox="0 0 64 64"><path d="M32 16c-6-4-14-5-22-4v36c8-1 16 0 22 4 6-4 14-5 22-4V12c-8-1-16 0-22 4z"/><path d="M32 16v36"/></svg></div>
 <div>
 <span class="tag">Curriculum · College of Engineering</span>
