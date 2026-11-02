@@ -8,174 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{--purple:#8b3dff;--purple-d:#6d28d9;--dark:#2f2e35;--darker:#232229;--light:#f5f4fb;--ink:#1d1c22;--muted:#6b6a75}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Open Sans',system-ui,sans-serif;color:var(--ink);background:var(--light);line-height:1.7;overflow-x:hidden}
-h1,h2,h3,h4,nav,.btn,.eyebrow,.tabs button{font-family:'Josefin Sans',system-ui,sans-serif}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
-.eyebrow{color:var(--purple);font-weight:600;font-size:15px;margin-bottom:6px;display:block}
-.btn{display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:#fff;font-weight:600;font-size:15px;padding:13px 26px;border-radius:4px;transition:background .2s,transform .2s}
-.btn:hover{background:var(--purple-d);transform:translateY(-2px)}
-.btn svg{width:16px;height:16px}
-.link{font-family:'Josefin Sans',sans-serif;font-weight:600;color:#fff;font-size:15px}
-.link:hover{color:var(--purple)}
-
-/* NAV */
-nav{position:absolute;top:0;left:0;right:0;z-index:20}
-nav .wrap{display:flex;justify-content:space-between;align-items:center;height:84px}
-.logo{font-size:30px;font-weight:700;color:#fff}
-.logo span{color:var(--purple)}
-nav ul{display:flex;gap:34px;list-style:none;font-weight:600;font-size:15px}
-nav ul a{color:#fff;transition:color .2s}
-nav ul a:hover,nav ul a.on{color:var(--purple)}
-
-/* HERO */
-.hero{background:var(--dark);color:#fff;position:relative;min-height:640px;overflow:hidden}
-.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;min-height:640px;align-items:center}
-.hero-text{padding-top:60px;position:relative;z-index:2}
-.hero-text .hi{font-family:'Josefin Sans';font-weight:600;font-size:20px}
-.hero-text h1{font-size:clamp(76px,11vw,138px);line-height:.95;color:var(--purple);font-weight:700;margin:8px 0 18px;letter-spacing:-2px}
-.hero-text .role{font-family:'Josefin Sans';font-weight:700;font-size:clamp(28px,3.4vw,46px);line-height:1.1}
-.hero-text .role small{font-size:.58em}
-.hero-text .ctas{display:flex;align-items:center;gap:30px;margin:40px 0 34px}
-.mouse{width:22px;height:34px;border:2px solid #fff;border-radius:12px;position:relative;display:block}
-.mouse::after{content:'';position:absolute;width:3px;height:7px;background:#fff;border-radius:2px;left:50%;top:6px;transform:translateX(-50%);animation:scroll 1.6s infinite}
-@keyframes scroll{0%{opacity:1;top:6px}100%{opacity:0;top:16px}}
-.social{position:absolute;left:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:18px;z-index:3}
-.social a{color:#fff;opacity:.85}.social a:hover{color:var(--purple);opacity:1}
-.social svg{width:17px;height:17px;display:block}
-.hero-mail{position:absolute;left:28px;bottom:26px;font-size:14px;color:#fff;z-index:3}
-.hero-mail:hover{color:var(--purple)}
-.hero-art{position:relative;height:640px;align-self:end}
-.hero-art .bar{position:absolute;right:30px;top:120px;width:230px;height:410px;background:var(--purple)}
-.hero-art .frame{position:absolute;right:210px;top:150px;width:230px;height:310px;border:3px solid #fff}
-.hero-art .outline{position:absolute;right:-30px;top:120px;font-family:'Josefin Sans';font-weight:700;font-size:190px;line-height:1;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.35);letter-spacing:4px;z-index:1;user-select:none}
-.hero-art img{position:absolute;bottom:0;right:70px;width:390px;height:auto;max-width:none;z-index:2;filter:drop-shadow(0 10px 30px rgba(0,0,0,.35))}
-.hero-art .sq{position:absolute;background:var(--purple);z-index:3}
-.sq.s1{width:66px;height:66px;left:20px;top:170px;z-index:1}
-.sq.s2{width:120px;height:120px;left:60px;bottom:40px}
-.sq.s3{width:40px;height:40px;right:-6px;top:360px;z-index:1}
-
-/* ABOUT */
-.about{padding:130px 0;position:relative;overflow:hidden}
-.about .wrap{display:grid;grid-template-columns:1fr 1.25fr;gap:70px;align-items:center}
-.about-art{position:relative;height:430px}
-.about-art .block{position:absolute;left:-20px;top:150px;width:180px;height:200px;background:var(--purple)}
-.about-art .line{position:absolute;left:-200px;top:40px;width:330px;height:150px;border:3px solid #fff;border-left:0;z-index:2}
-.about-art .card{position:absolute;left:60px;top:0;width:300px;height:340px;border-radius:8px;overflow:hidden;background:var(--darker);box-shadow:0 20px 40px rgba(29,28,34,.2);z-index:1}
-.about-art .card svg{width:100%;height:100%;display:block}
-.about h2{font-size:clamp(38px,4.6vw,56px);line-height:1.1;font-weight:700}
-.about h2 span,.purple{color:var(--purple)}
-.about h4{font-size:24px;margin:16px 0 22px}
-.about p{color:var(--muted);font-size:15px;margin-bottom:16px;max-width:430px}
-.about .btn{margin-top:14px}
-.about-side{position:absolute;right:0;bottom:120px;width:140px;height:280px;background:var(--purple)}
-.stat{position:absolute;right:50px;bottom:40px;background:#fff;border-radius:8px;box-shadow:0 20px 40px rgba(29,28,34,.15);padding:24px 26px;width:210px;z-index:2}
-.stat div{padding:10px 0;border-bottom:1px solid #eee}
-.stat div:last-child{border:0}
-.stat b{font-family:'Josefin Sans';font-size:30px;color:var(--purple);display:block;line-height:1}
-.stat small{color:var(--muted);font-size:13px}
-
-/* SKILLS + WORK (purple) */
-.purple-zone{background:var(--purple);color:#fff;position:relative;overflow:hidden}
-.skills{padding:110px 0 80px}
-.skills .wrap{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
-.skills .eyebrow,.work .eyebrow{color:#fff}
-.skills h2{font-size:clamp(36px,4.2vw,50px);line-height:1.15;margin-bottom:22px}
-.skills p{font-size:15px;opacity:.92;max-width:440px}
-.bars>div{margin-bottom:26px}
-.bars .lbl{display:flex;justify-content:space-between;font-family:'Josefin Sans';font-weight:600;font-size:16px;margin-bottom:10px}
-.bars .track{height:5px;background:rgba(255,255,255,.3);border-radius:4px;overflow:hidden}
-.bars .fill{height:100%;background:#fff;border-radius:4px;width:0;transition:width 1.4s cubic-bezier(.2,.8,.2,1)}
-.work{padding:40px 0 120px;position:relative}
-.work .head{text-align:center;margin-bottom:34px}
-.work h2{font-size:clamp(36px,4.2vw,50px)}
-.work .deco{position:absolute;left:-40px;top:260px;width:220px;height:200px;border:3px solid #fff;border-left:0}
-.tabs{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 30px;margin-bottom:40px}
-.tabs button{background:none;border:0;color:#fff;font-size:16px;font-weight:600;cursor:pointer;padding:4px 0;border-bottom:2px solid transparent;opacity:.8}
-.tabs button.on,.tabs button:hover{opacity:1;border-color:#fff}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;position:relative;z-index:1}
-.proj{background:var(--darker);border-radius:8px;overflow:hidden;transition:transform .25s,box-shadow .25s}
-.proj:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(0,0,0,.25)}
-.proj.hide{display:none}
-.proj .art{height:190px;background:radial-gradient(circle at 70% 20%,rgba(139,61,255,.45),transparent 60%),#18171d;display:grid;place-items:center}
-.proj .art svg{width:88px;height:88px;stroke:#c4a5ff;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.proj .body{padding:22px 24px 26px}
-.proj .tag{font-size:12px;color:#c4a5ff;font-family:'Josefin Sans';font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.proj h3{font-size:22px;margin:6px 0 8px}
-.proj p{font-size:14px;color:#c9c8d1;line-height:1.65}
-.pill{display:inline-block;vertical-align:middle;margin-left:6px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--purple);padding:3px 8px 2px;border-radius:20px;position:relative;top:-2px}
-.pill::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#fff;margin-right:5px;vertical-align:middle;position:relative;top:-1px;animation:blink 1.6s infinite}
-@keyframes blink{50%{opacity:.25}}
-.proj a.gh{display:inline-block;margin-top:12px;font-family:'Josefin Sans';font-weight:600;font-size:14px;color:#fff;border-bottom:1px solid var(--purple)}
-
-/* EXPERIENCE */
-.exp{padding:120px 0}
-.exp .head{text-align:center;margin-bottom:60px}
-.exp h2{font-size:clamp(36px,4.2vw,50px)}
-.timeline{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
-.job{background:#fff;border-radius:8px;padding:30px 30px 26px;box-shadow:0 10px 30px rgba(29,28,34,.06);border-top:4px solid var(--purple);transition:transform .25s}
-.job:hover{transform:translateY(-4px)}
-.job .when{font-family:'Josefin Sans';font-weight:600;color:var(--purple);font-size:14px}
-.job h3{font-size:23px;margin:6px 0 2px}
-.job .org{color:var(--muted);font-size:14px;margin-bottom:14px}
-.job ul{list-style:none}
-.job li{font-size:14px;color:#4a4954;padding-left:18px;position:relative;margin-bottom:6px}
-.job li::before{content:'';position:absolute;left:0;top:9px;width:7px;height:7px;background:var(--purple)}
-.job.edu{background:var(--dark);color:#fff;grid-column:1/-1}
-.job.edu .org,.job.edu li{color:#cfcdd8}
-
-/* CONTACT */
-.contact{background:var(--dark);color:#fff;padding:110px 0 40px;position:relative;overflow:hidden}
-.contact .sq{position:absolute;background:var(--purple)}
-.contact .c1{width:90px;height:90px;right:8%;top:60px}
-.contact .c2{width:40px;height:40px;right:3%;top:170px}
-.contact h2{font-size:clamp(40px,6vw,74px);line-height:1.05;margin-bottom:22px}
-.contact p{color:#cfcdd8;max-width:520px;margin-bottom:34px}
-.contact .ctas{display:flex;flex-wrap:wrap;gap:16px 30px;align-items:center}
-footer{margin-top:90px;padding-top:26px;border-top:1px solid rgba(255,255,255,.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:#a5a3b0}
-
-/* RESPONSIVE */
-@media(max-width:1240px){.stat,.about-side{display:none}}
-@media(max-width:980px){
-nav ul{display:none}
-.social{display:none}
-.hero .wrap{grid-template-columns:1fr}
-.hero-text{padding:130px 0 0 30px}
-.hero-art{height:520px;max-width:520px;width:100%;margin:0 auto}
-.hero-art img{width:380px;right:50%;transform:translateX(50%)}
-.hero-art .bar{right:calc(50% - 190px)}
-.hero-art .frame{right:calc(50% - 40px)}
-.hero-art .outline{font-size:140px;right:0}
-.hero-mail{display:none}
-.about .wrap,.skills .wrap{grid-template-columns:1fr;gap:50px}
-.about-art{max-width:380px;margin:0 auto;width:100%}
-.about-side,.stat{display:none}
-.grid{grid-template-columns:repeat(2,1fr)}
-.timeline{grid-template-columns:1fr}
-}
-@media(max-width:600px){
-.social{display:none}
-.hero-text{padding:120px 0 0}
-.hero-art{height:440px}
-.hero-art img{width:320px}
-.hero-art .bar{width:180px;height:320px;top:90px;right:calc(50% - 150px)}
-.hero-art .frame{width:160px;height:250px;top:120px}
-.hero-art .outline{font-size:104px;top:100px}
-.sq.s2{width:80px;height:80px;left:10px}
-.sq.s1{left:0}
-.about{padding:90px 0}
-.about-art{height:380px}
-.about-art .card{left:30px;width:270px;height:310px}
-.grid{grid-template-columns:1fr}
-.work .deco{display:none}
-.skills{padding:80px 0 50px}
-.exp{padding:90px 0}
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -201,7 +34,7 @@ nav ul{display:none}
 <div class="hero-text">
 <div class="hi">Hello, I'm</div>
 <h1>Aidan</h1>
-<div class="role"><small>Systems</small> Engineer</div>
+<div class="role"><small>Computer Systems</small> Engineer</div>
 <div class="ctas">
 <a class="btn" href="#contact">Say Hello <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 6 10 7 10-7"/></svg></a>
 <a class="link" href="#about">About Me</a>
@@ -224,9 +57,9 @@ nav ul{display:none}
 <section class="about" id="about">
 <div class="about-side"></div>
 <div class="stat">
-<div><b>3.49</b><small>GPA, UGA Computer Systems Eng.</small></div>
+<div><b>2027</b><small>B.S. graduation, May</small></div>
 <div><b>3+ yrs</b><small>teaching physics, circuits &amp; CS</small></div>
-<div><b>2027</b><small>graduating in May</small></div>
+<div><b>6 yrs</b><small>IT &amp; A/V support since 2020</small></div>
 </div>
 <div class="wrap">
 <div class="about-art">
@@ -241,14 +74,13 @@ nav ul{display:none}
 <g fill="#8b3dff"><circle cx="70" cy="60" r="5"/><circle cx="50" cy="120" r="5"/><circle cx="240" cy="80" r="5"/><circle cx="60" cy="250" r="5"/><circle cx="230" cy="260" r="5"/><circle cx="230" cy="40" r="5"/><circle cx="110" cy="270" r="5"/></g>
 <rect x="105" y="105" width="110" height="130" rx="8" fill="#2a2833" stroke="#c4a5ff" stroke-width="2.5"/>
 <g stroke="#c4a5ff" stroke-width="2.5"><path d="M120 105v-12M140 105v-12M160 105v-12M180 105v-12M200 105v-12M120 235v12M140 235v12M160 235v12M180 235v12M200 235v12M105 125H93M105 150H93M105 175H93M105 200H93M105 225H93M215 125h12M215 150h12M215 175h12M215 200h12M215 225h12"/></g>
-<text x="160" y="176" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-weight="700" font-size="24" fill="#fff">ARM</text>
-<text x="160" y="200" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-size="12" fill="#c4a5ff">CORTEX</text>
+<text x="160" y="182" text-anchor="middle" font-family="Josefin Sans, sans-serif" font-weight="700" font-size="26" fill="#fff">ARM</text>
 </svg>
 </div>
 </div>
 <div>
 <span class="eyebrow">About Me</span>
-<h2>I'm <span>Aidan</span><br>Systems <span>Engineer</span></h2>
+<h2>I'm <span>Aidan</span><br>Computer Systems <span>Engineer</span></h2>
 <h4>Based in Athens, GA</h4>
 <p>I'm a Computer Systems Engineering student at the University of Georgia, graduating May 2027. I work where hardware meets software: embedded systems, PCB design, FPGAs, and the code that runs on them.</p>
 <p>I'm looking for roles in SOC analysis, systems integration, or anywhere physics and hardware meet computing. Outside of class I lead hardware on my capstone, do accessibility research in the ACCESS Lab, and teach physics and circuits.</p>
@@ -262,14 +94,14 @@ nav ul{display:none}
 <div>
 <span class="eyebrow">My Skills</span>
 <h2>Hardware Meets<br>Software</h2>
-<p>From soldering iron to source code. I design circuits and PCBs, program microcontrollers and FPGAs, and build the software that ties them together, with a growing focus on keeping those systems secure.</p>
+<p>From soldering iron to source code. Each skill here is tied to the project, job, or class where I actually used it.</p>
 </div>
-<div class="bars">
-<div><div class="lbl"><span>Embedded C / C++</span><span>85%</span></div><div class="track"><div class="fill" data-w="85"></div></div></div>
-<div><div class="lbl"><span>PCB &amp; Circuit Design</span><span>85%</span></div><div class="track"><div class="fill" data-w="85"></div></div></div>
-<div><div class="lbl"><span>Verilog / FPGA</span><span>75%</span></div><div class="track"><div class="fill" data-w="75"></div></div></div>
-<div><div class="lbl"><span>Python &amp; Java</span><span>80%</span></div><div class="track"><div class="fill" data-w="80"></div></div></div>
-<div><div class="lbl"><span>Linux &amp; Systems</span><span>75%</span></div><div class="track"><div class="fill" data-w="75"></div></div></div>
+<div class="skillset">
+<div class="sk"><h3>Embedded &amp; Low-Level</h3><div class="chips"><span>C</span><span>C++</span><span>ARM Assembly</span><span>Microcontrollers</span></div><div class="used"><b>Used in:</b> Automatic Cat Feeder, Embedded Systems Design I, Systems Programming</div></div>
+<div class="sk"><h3>Circuits &amp; PCB Design</h3><div class="chips"><span>PCB Design</span><span>Circuit Simulation</span><span>AC/DC Design</span><span>Micro-soldering</span></div><div class="used"><b>Used in:</b> ModμMIDI² PCBs, Computer Repair, Circuit Analysis, Electronics I–II, Sensors &amp; Transducers</div></div>
+<div class="sk"><h3>Digital Design</h3><div class="chips"><span>Verilog</span><span>FPGA</span><span>Digital Logic</span></div><div class="used"><b>Used in:</b> Logic Design, Design of Digital Systems (HDL on FPGA), Computer Architecture</div></div>
+<div class="sk"><h3>Software</h3><div class="chips"><span>Python</span><span>Java</span><span>JavaScript</span><span>Streamlit</span></div><div class="used"><b>Used in:</b> Bach front end (DawgHack 2025), Cat Feeder web app, Software Development, Data Structures</div></div>
+<div class="sk"><h3>Systems &amp; Networking</h3><div class="chips"><span>Linux</span><span>Windows</span><span>macOS</span><span>VPN</span><span>A/V Streaming</span></div><div class="used"><b>Used in:</b> IT Services at IFCII since 2020, Cat Feeder remote access, Unix Systems Programming</div></div>
 </div>
 </div></section>
 
@@ -284,46 +116,47 @@ nav ul{display:none}
 <button data-f="research">Research</button>
 </div>
 <div class="grid">
-<article class="proj" data-c="hardware">
+<a class="proj" data-c="hardware" href="projects.html#modumidi">
 <div class="art"><svg viewBox="0 0 64 64"><rect x="6" y="18" width="52" height="30" rx="3"/><path d="M14 18v30M22 18v30M30 18v30M38 18v30M46 18v30"/><rect x="11" y="18" width="6" height="18" fill="#c4a5ff"/><rect x="27" y="18" width="6" height="18" fill="#c4a5ff"/><rect x="43" y="18" width="6" height="18" fill="#c4a5ff"/></svg></div>
-<div class="body"><span class="tag">Capstone · PCB Design</span><h3>ModμMIDI² <span class="pill">Ongoing</span></h3><p>An open-source modular semitonal MIDI controller for the UGA School of Music. I lead prototyping and PCB design, including a banked key system with adjustable octave width and layouts.</p></div>
-</article>
-<article class="proj" data-c="hardware software">
+<div class="body"><span class="tag">Capstone · PCB Design</span><h3>ModμMIDI² <span class="pill">Ongoing</span></h3><p>An open-source modular semitonal MIDI controller for the UGA School of Music. I lead prototyping and PCB design.</p><span class="more">Details →</span></div>
+</a>
+<a class="proj" data-c="hardware software" href="projects.html#cat-feeder">
 <div class="art"><svg viewBox="0 0 64 64"><path d="M10 40h44l-5 12H15z"/><path d="M14 40c0-6 8-10 18-10s18 4 18 10"/><path d="M20 22c3-3 6-3 9 0M35 22c3-3 6-3 9 0"/><path d="M24 14c5-5 11-5 16 0"/></svg></div>
-<div class="body"><span class="tag">Sensors · Web App</span><h3>Automatic Cat Feeder</h3><p>A three-sensor device that dispenses food on programmable intervals and monitors water turbidity and level, with a web app for remote control and data over a VPN.</p></div>
-</article>
-<article class="proj" data-c="software">
+<div class="body"><span class="tag">Sensors · Web App</span><h3>Automatic Cat Feeder</h3><p>Dispenses food on a schedule and monitors water turbidity and level, with a web app for remote control over a VPN.</p><span class="more">Details →</span></div>
+</a>
+<a class="proj" data-c="software" href="projects.html#bach">
 <div class="art"><svg viewBox="0 0 64 64"><path d="M24 46V14l26-6v32"/><circle cx="18" cy="46" r="6"/><circle cx="44" cy="40" r="6"/><path d="M24 24l26-6"/></svg></div>
-<div class="body"><span class="tag">Hackathon · Python</span><h3>Bach: Music Generator</h3><p>Built at DawgHack 2025. Composes multi-instrument MIDI pieces with no ML: a Markov chain picks chord progressions, modal rotation sets the mood, and layered rhythms build the arrangement.</p><a class="gh" href="https://github.com/axudas/ProceduralMusicGeneratorDawgHack25" target="_blank" rel="noopener">View on GitHub →</a></div>
-</article>
-<article class="proj" data-c="hardware">
+<div class="body"><span class="tag">Hackathon · Python</span><h3>Bach: Music Generator</h3><p>A three-person DawgHack 2025 team project that composes MIDI music with no ML. I built the Streamlit front end.</p><span class="more">Details →</span></div>
+</a>
+<a class="proj" data-c="hardware" href="projects.html#computer-repair">
 <div class="art"><svg viewBox="0 0 64 64"><rect x="18" y="18" width="28" height="28" rx="3"/><rect x="25" y="25" width="14" height="14"/><path d="M24 18v-8M32 18v-8M40 18v-8M24 54v-8M32 54v-8M40 54v-8M18 24h-8M18 32h-8M18 40h-8M54 24h-8M54 32h-8M54 40h-8"/></svg></div>
-<div class="body"><span class="tag">Repair · Micro-soldering</span><h3>Computer Repair</h3><p>Diagnosing and repairing consumer hardware down to individual components with micro-soldering, and helping people balance parts for the best performance per dollar.</p></div>
-</article>
-<article class="proj" data-c="research">
+<div class="body"><span class="tag">Repair · Micro-soldering</span><h3>Computer Repair</h3><p>Diagnosing and repairing consumer hardware down to individual components with micro-soldering.</p><span class="more">Details →</span></div>
+</a>
+<a class="proj" data-c="research" href="projects.html#accessibility">
 <div class="art"><svg viewBox="0 0 64 64"><path d="M10 54h44"/><rect x="14" y="34" width="8" height="20"/><rect x="28" y="22" width="8" height="32"/><rect x="42" y="12" width="8" height="42"/></svg></div>
-<div class="body"><span class="tag">ACCESS Lab · UGA</span><h3>Accessibility in Engineering</h3><p>Undergraduate research on accessibility in engineering and engineering education: survey design, literature reviews, focus groups, analysis, and presenting findings.</p></div>
-</article>
-<article class="proj" data-c="research">
+<div class="body"><span class="tag">ACCESS Lab · UGA</span><h3>Accessibility in Engineering</h3><p>Research on accessibility in engineering and engineering education: surveys, literature reviews, and focus groups.</p><span class="more">Details →</span></div>
+</a>
+<a class="proj" data-c="research" href="projects.html#ai-ethics">
 <div class="art"><svg viewBox="0 0 64 64"><path d="M32 16c-6-4-14-5-22-4v36c8-1 16 0 22 4 6-4 14-5 22-4V12c-8-1-16 0-22 4z"/><path d="M32 16v36"/></svg></div>
-<div class="body"><span class="tag">Curriculum · AI Ethics</span><h3>AI Use &amp; Ethics Course</h3><p>Created course material for UGA's College of Engineering covering how AI is used in industry and the ethical questions engineers face when they use it.</p></div>
-</article>
+<div class="body"><span class="tag">Curriculum · AI Ethics</span><h3>AI Use &amp; Ethics Course</h3><p>Course material for UGA's College of Engineering on how engineers use AI in industry, and the ethics of it.</p><span class="more">Details →</span></div>
+</a>
 </div>
+<div class="center"><a class="btn white" href="projects.html">See all project details →</a></div>
 </div>
 </section>
 </div>
 
 <section class="exp" id="experience"><div class="wrap">
-<div class="head"><span class="eyebrow">Resume</span><h2>Experience &amp; <span class="purple">Education</span></h2></div>
+<div class="head"><span class="eyebrow">Resume</span><h2>Recent <span class="purple">Experience</span></h2></div>
 <div class="timeline">
 <div class="job"><div class="when">Sep 2024 – Present</div><h3>Undergraduate Research Assistant</h3><div class="org">ACCESS Lab · Athens, GA</div><ul><li>Research accessibility in engineering and engineering education.</li><li>Survey design, literature reviews, focus groups, and analysis.</li><li>Built AI use and ethics course material for the College of Engineering.</li></ul></div>
 <div class="job"><div class="when">Aug 2024 – Present</div><h3>Lead Physics Tutor</h3><div class="org">Science Guyz LLC · Athens, GA</div><ul><li>Teach general and for-majors physics.</li><li>Produce supplemental videos and guided conceptual practice.</li><li>Help hire and evaluate new tutors.</li></ul></div>
-<div class="job"><div class="when">May 2024 – Aug 2024</div><h3>Lead Bartender</h3><div class="org">Cork-It · Gainesville</div><ul><li>Quickly became the manager's assistant, helping run a local wine bar on the Gainesville square.</li><li>Handled thousands of dollars in sales and learned wine, pairings, and wine sales.</li><li>Worked long hours with patience, sharpening customer service and teamwork.</li></ul></div>
 <div class="job"><div class="when">Sep 2023 – Present</div><h3>Lead Peer Tutor</h3><div class="org">Office of Active Learning, UGA</div><ul><li>Coordinate scheduling and sessions for a team of 8–12 tutors.</li><li>Tutor engineering, circuits, math, physics, and CS (1000–3000 level).</li></ul></div>
-<div class="job"><div class="when">Dec 2022 – Aug 2023</div><h3>Cashier</h3><div class="org">Publix · Gainesville</div><ul><li>Served high-need customers while keeping a clean environment.</li><li>Learned to anticipate customer needs to create the ideal experience.</li><li>Built habits of proactive action and professional representation.</li></ul></div>
 <div class="job"><div class="when">Jun 2020 – Present</div><h3>Information Technology Services</h3><div class="org">Institute for Floor Covering Inspector International</div><ul><li>Set up and run audio and video streaming to share educational material internationally.</li><li>Troubleshoot networking, hardware, and software issues for students during an annual week-long class.</li></ul></div>
-<div class="job edu"><div class="when">Graduating May 2027</div><h3>B.S. Computer Systems Engineering</h3><div class="org">University of Georgia · GPA 3.49</div><ul><li>Computer Architecture, Embedded Systems 1–2, Digital Design (FPGA) 1–2</li><li>Systems Programming (C/C++), Circuit Design 1–3, Electronics 1–2, Nanoelectronics</li><li>Emerging Engineers Leadership Development Certificate</li></ul></div>
+<div class="job edu"><div class="when">Graduating May 2027</div><h3>B.S. Computer Systems Engineering</h3><div class="org">University of Georgia, College of Engineering · Dean's List (Fall 2023) · Emerging Engineers Leadership Development Certificate</div>
+<div class="courses"><span>Computer Architecture*</span><span>Embedded Systems Design I*</span><span>Design of Digital Systems (FPGA)</span><span>Logic Design</span><span>Systems Programming (Unix)</span><span>Circuit Analysis</span><span>Electronics I &amp; II</span><span>Linear Systems</span><span>Sensors &amp; Transducers</span><span>Nanoelectronics*</span><span>Data Structures</span><span>Applied Linear Algebra</span></div><p style="font-size:13px;color:#a5a3b0;margin-top:10px">* in progress, Fall 2026</p></div>
 </div>
+<div class="center"><a class="btn" href="experience.html">See all experience &amp; coursework →</a></div>
 </div></section>
 
 <section class="contact" id="contact">
@@ -349,9 +182,6 @@ tabs.forEach(function(t){t.classList.remove('on')});b.classList.add('on');
 var f=b.getAttribute('data-f');
 cards.forEach(function(c){c.classList.toggle('hide',f!=='all'&&c.getAttribute('data-c').split(' ').indexOf(f)<0)});
 })});
-var fills=document.querySelectorAll('.fill');
-function go(){fills.forEach(function(el){el.style.width=el.getAttribute('data-w')+'%'})}
-if('IntersectionObserver' in window){var io=new IntersectionObserver(function(e){if(e[0].isIntersecting){go();io.disconnect()}},{threshold:.3});io.observe(document.querySelector('.bars'))}else{go()}
 var links=document.querySelectorAll('nav ul a'),secs=['home','about','skills','projects','experience','contact'].map(function(i){return document.getElementById(i)});
 window.addEventListener('scroll',function(){var y=window.scrollY+200,cur='home';secs.forEach(function(s){if(s&&s.offsetTop<=y)cur=s.id});links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur)})},{passive:true});
 })();

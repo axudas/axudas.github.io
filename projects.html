@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects | Aidan Carr</title>
+<meta name="description" content="Hardware, software, and research projects by Aidan Carr, Computer Systems Engineering at the University of Georgia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav><div class="wrap">
+<a class="logo" href="index.html">Aidan<span>.</span></a>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a class="on" href="projects.html">Projects</a></li>
+<li><a href="experience.html">Experience</a></li>
+<li><a href="index.html#contact">Contact</a></li>
+</ul>
+</div></nav>
+
+<header class="page-hero">
+<div class="pf"></div><div class="sq p1"></div><div class="sq p2"></div>
+<div class="wrap">
+<a class="back" href="index.html#projects">← Back to home</a>
+<span class="eyebrow">Selected Works</span>
+<h1>Project <span>Details</span></h1>
+<p>What each project is, what I did on it, and the tools behind it.</p>
+<div class="jump"><a href="#modumidi">ModμMIDI²</a><a href="#cat-feeder">Automatic Cat Feeder</a><a href="#bach">Bach</a><a href="#computer-repair">Computer Repair</a><a href="#accessibility">Accessibility Research</a><a href="#ai-ethics">AI Ethics Course</a></div>
+</div>
+</header>
+
+<section class="sec" id="modumidi"><div class="wrap pd">
+<div class="art"><svg viewBox="0 0 64 64"><rect x="6" y="18" width="52" height="30" rx="3"/><path d="M14 18v30M22 18v30M30 18v30M38 18v30M46 18v30"/><rect x="11" y="18" width="6" height="18" fill="#c4a5ff"/><rect x="27" y="18" width="6" height="18" fill="#c4a5ff"/><rect x="43" y="18" width="6" height="18" fill="#c4a5ff"/></svg></div>
+<div>
+<span class="tag">Hardware · Senior Capstone</span>
+<h2>ModμMIDI² <span class="pill">Ongoing</span></h2>
+<div class="meta">Sep 2026 – Apr 2027 · Client: UGA School of Music · CSEE 4910 Capstone Design</div>
+<p>An open-source, modular, semitonal MIDI controller commissioned by the UGA School of Music. The goal is an instrument whose keys and layout can be rearranged to fit the player rather than the other way around.</p>
+<h4>My role: Lead of Prototyping and PCB Design</h4>
+<ul><li>Designing the modular key interface so key modules can be added, removed, and rearranged.</li><li>Building a banked key system with adjustable octave width and key layouts.</li><li>Prototyping hardware with a focus on a comfortable playing experience for the client.</li></ul>
+<h4>Skills &amp; tools</h4>
+<div class="chips"><span>PCB Design</span><span>Prototyping</span><span>Embedded Systems</span><span>MIDI</span><span>Client Requirements</span></div>
+</div>
+</div></section>
+
+<section class="sec alt" id="cat-feeder"><div class="wrap pd">
+<div class="art"><svg viewBox="0 0 64 64"><path d="M10 40h44l-5 12H15z"/><path d="M14 40c0-6 8-10 18-10s18 4 18 10"/><path d="M20 22c3-3 6-3 9 0M35 22c3-3 6-3 9 0"/><path d="M24 14c5-5 11-5 16 0"/></svg></div>
+<div>
+<span class="tag">Hardware + Software · Personal / Sensors Project</span>
+<h2>Automatic Cat Feeder</h2>
+<div class="meta">Dec 2025 – Aug 2026</div>
+<p>A three-sensor device that actuates and monitors a pet's food and water. It dispenses food on programmable intervals, tracks water quality and level, and can be checked and controlled remotely.</p>
+<h4>What I built</h4>
+<ul><li>Control logic and firmware to monitor water turbidity and water level.</li><li>Accurate food dispensing on discrete, programmable intervals.</li><li>Calculated each sensor's response and designed the signal conditioning needed to interface them with the microcontroller.</li><li>A web app for remote control and for viewing the collected sensor data, reachable securely over a VPN.</li></ul>
+<h4>Skills &amp; tools</h4>
+<div class="chips"><span>Sensors</span><span>Signal Conditioning</span><span>Microcontrollers</span><span>Embedded Programming</span><span>Web App</span><span>VPN</span></div>
+</div>
+</div></section>
+
+<section class="sec" id="bach"><div class="wrap pd">
+<div class="art"><svg viewBox="0 0 64 64"><path d="M24 46V14l26-6v32"/><circle cx="18" cy="46" r="6"/><circle cx="44" cy="40" r="6"/><path d="M24 24l26-6"/></svg></div>
+<div>
+<span class="tag">Software · Hackathon</span>
+<h2>Bach: Procedural Music Generator</h2>
+<div class="meta">DawgHack 2025 · Team of three</div>
+<p>Bach composes short, multi-instrument MIDI pieces from a few choices (tempo, mood, instruments, and how "zany" it should be) without any machine learning. Everything comes from music theory and probability.</p>
+<h4>How it works</h4>
+<ul><li>Each of seven moods maps to one of the seven Greek modes, from Ionian to Locrian, with its own rhythmic feel.</li><li>A first-order Markov chain picks chord progressions, with separate major and minor transition tables that follow common harmonic movement.</li><li>Chord, bass, and lead tracks are generated separately and merged into one MIDI file.</li><li>Random 7ths, 9ths, octave shifts, and an adjustable chance of altered chords keep pieces from sounding mechanical.</li></ul>
+<h4>My role: Front end and integration</h4>
+<ul><li>Built the Streamlit web interface and its parameter inputs.</li><li>Connected those inputs to the composition engine.</li><li>Added in-browser playback and one-click .mid download.</li></ul>
+<h4>Skills &amp; tools</h4>
+<div class="chips"><span>Python</span><span>Streamlit</span><span>MIDIUtil</span><span>mido</span><span>Markov Chains</span><span>Git / Team Workflow</span></div>
+<div class="links"><a class="btn" href="https://github.com/axudas/ProceduralMusicGeneratorDawgHack25" target="_blank" rel="noopener">View on GitHub →</a></div>
+</div>
+</div></section>
+
+<section class="sec alt" id="computer-repair"><div class="wrap pd">
+<div class="art"><svg viewBox="0 0 64 64"><rect x="18" y="18" width="28" height="28" rx="3"/><rect x="25" y="25" width="14" height="14"/><path d="M24 18v-8M32 18v-8M40 18v-8M24 54v-8M32 54v-8M40 54v-8M18 24h-8M18 32h-8M18 40h-8M54 24h-8M54 32h-8M54 40h-8"/></svg></div>
+<div>
+<span class="tag">Hardware · Personal / Volunteer</span>
+<h2>Computer Repair</h2>
+<div class="meta">Ongoing</div>
+<p>I diagnose and fix consumer computers and electronics, often at the board level where most people would replace the whole part.</p>
+<h4>What I do</h4>
+<ul><li>Debug hardware faults and repair individual components with micro-soldering.</li><li>Help people choose and balance hardware to get the best performance for their budget.</li></ul>
+<h4>Skills &amp; tools</h4>
+<div class="chips"><span>Micro-soldering</span><span>Soldering</span><span>Hardware Debugging</span><span>Windows</span><span>macOS</span><span>Linux</span></div>
+</div>
+</div></section>
+
+<section class="sec" id="accessibility"><div class="wrap pd">
+<div class="art"><svg viewBox="0 0 64 64"><path d="M10 54h44"/><rect x="14" y="34" width="8" height="20"/><rect x="28" y="22" width="8" height="32"/><rect x="42" y="12" width="8" height="42"/></svg></div>
+<div>
+<span class="tag">Research · ACCESS Lab, UGA</span>
+<h2>Accessibility in Engineering Education</h2>
+<div class="meta">Sep 2024 – Present · Undergraduate Research Assistant</div>
+<p>Research on how accessible engineering and engineering education are, and how to improve them.</p>
+<h4>What I do</h4>
+<ul><li>Design systematic surveys and run focus groups.</li><li>Conduct literature reviews and analyze literature for lab meetings and data collection.</li><li>Analyze results, present findings, and write research literature.</li></ul>
+<h4>Skills &amp; tools</h4>
+<div class="chips"><span>Survey Design</span><span>Focus Groups</span><span>Literature Review</span><span>Data Analysis</span><span>Technical Writing</span></div>
+</div>
+</div></section>
+
+<section class="sec alt" id="ai-ethics"><div class="wrap pd">
+<div class="art"><svg viewBox="0 0 64 64"><path d="M32 16c-6-4-14-5-22-4v36c8-1 16 0 22 4 6-4 14-5 22-4V12c-8-1-16 0-22 4z"/><path d="M32 16v36"/></svg></div>
+<div>
+<span class="tag">Curriculum · College of Engineering</span>
+<h2>AI Use &amp; Ethics Course Material</h2>
+<div class="meta">ACCESS Lab, UGA</div>
+<p>Course material for UGA's College of Engineering that covers how engineers use AI in industry and the ethical questions that come with it. It builds on my coursework in CSCI 3030, Computing, Ethics, and Society.</p>
+<h4>Skills &amp; tools</h4>
+<div class="chips"><span>Curriculum Design</span><span>AI Ethics</span><span>Technical Writing</span><span>Teaching</span></div>
+</div>
+</div></section>
+
+<section class="contact"><div class="wrap">
+<span class="eyebrow">Contact</span>
+<h2>Want to know<br>more about <span class="purple">a project?</span></h2>
+<p>I'm happy to walk through any of these in more detail. Email is the fastest way to reach me.</p>
+<div class="ctas">
+<a class="btn" href="mailto:aidand.carr925@gmail.com">aidand.carr925@gmail.com</a>
+<a class="link" href="experience.html">See my experience →</a>
+<a class="link" href="https://github.com/axudas" target="_blank" rel="noopener">GitHub</a>
+</div>
+<footer><span>© 2026 Aidan Carr</span><span>aidancarr.tech</span></footer>
+</div></section>
+</body>
+</html>
