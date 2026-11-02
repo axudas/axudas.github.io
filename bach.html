@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Try Bach | Aidan Carr</title>
+<meta name="description" content="Try Bach, a procedural music generator built at DawgHack 2025. Compose a MIDI piece from tempo, mood, and instruments, with no AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.demo{padding:70px 0 100px}
+.demo-grid{display:grid;grid-template-columns:300px 1fr;gap:40px;align-items:start}
+.how{background:#fff;border-radius:8px;padding:26px 26px 22px;box-shadow:0 10px 30px rgba(29,28,34,.06);position:sticky;top:30px}
+.how h3{font-size:20px;margin-bottom:12px}
+.how ol{padding-left:20px;font-size:14px;color:#4a4954}
+.how li{margin-bottom:8px}
+.how .note{font-size:13px;color:var(--muted);margin-top:14px;padding-top:14px;border-top:1px solid #eee}
+.how .links{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.how .links a{font-family:'Josefin Sans';font-weight:600;font-size:14px;color:var(--purple)}
+.frame-wrap{background:#fff;border-radius:8px;box-shadow:0 20px 40px rgba(29,28,34,.12);overflow:hidden;border-top:4px solid var(--purple)}
+.frame-wrap iframe{display:block;width:100%;height:1150px;border:0}
+@media(max-width:980px){.demo-grid{grid-template-columns:1fr}.how{position:static}.frame-wrap iframe{height:1250px}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+<a class="logo" href="index.html">Aidan<span>.</span></a>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a class="on" href="projects.html">Projects</a></li>
+<li><a href="experience.html">Experience</a></li>
+<li><a href="index.html#contact">Contact</a></li>
+</ul>
+</div></nav>
+
+<header class="page-hero">
+<div class="pf"></div><div class="sq p1"></div><div class="sq p2"></div>
+<div class="wrap">
+<a class="back" href="projects.html#bach">← Back to Bach project details</a>
+<span class="eyebrow">Live Demo · DawgHack 2025</span>
+<h1>Try <span>Bach</span></h1>
+<p>Pick a tempo, mood, and instruments, and Bach composes a short multi-instrument piece using music theory and probability. No AI.</p>
+</div>
+</header>
+
+<section class="demo"><div class="wrap demo-grid">
+<aside class="how">
+<h3>How to use it</h3>
+<ol>
+<li>Choose a <b>Tempo</b> and <b>Mood</b>.</li>
+<li>Pick instruments for the <b>Chord</b>, <b>Bass</b>, and <b>Lead</b>.</li>
+<li>Slide <b>Jazz</b> and <b>Zany</b> up for richer, stranger harmony.</li>
+<li>Click <b>Create</b>, or <b>Randomize</b> to let Bach choose.</li>
+<li>Press play on the player, or <b>Download</b> the .mid file.</li>
+</ol>
+<p class="note">The demo runs on Streamlit's free hosting. If it's been idle it may show a sleep screen; click the button to wake it and give it about 30 seconds.</p>
+<div class="links">
+<a href="https://aidancarr-bach.streamlit.app/" target="_blank" rel="noopener">Open in a new tab ↗</a>
+<a href="https://github.com/axudas/ProceduralMusicGeneratorDawgHack25" target="_blank" rel="noopener">View the code on GitHub ↗</a>
+<a href="projects.html#bach">How it works →</a>
+</div>
+</aside>
+<div class="frame-wrap">
+<iframe src="https://aidancarr-bach.streamlit.app/?embed=true" title="Bach procedural music generator" loading="lazy" allow="autoplay; clipboard-write"></iframe>
+</div>
+</div></section>
+
+<section class="contact"><div class="wrap">
+<span class="eyebrow">Contact</span>
+<h2>Like what<br>you <span class="purple">hear?</span></h2>
+<p>I built the front end of Bach with two teammates at DawgHack 2025. Happy to talk about it.</p>
+<div class="ctas">
+<a class="btn" href="mailto:aidand.carr925@gmail.com">aidand.carr925@gmail.com</a>
+<a class="link" href="projects.html">See all projects →</a>
+<a class="link" href="index.html">Back to home</a>
+</div>
+<footer><span>© 2026 Aidan Carr</span><span>aidancarr.tech</span></footer>
+</div></section>
+</body>
+</html>
