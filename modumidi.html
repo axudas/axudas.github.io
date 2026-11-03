@@ -60,7 +60,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:10px}
 <span class="eyebrow">Senior Capstone · Client: UGA School of Music</span>
 <h1>ModμMIDI² <span>Progress</span></h1>
 <p>An open-source, modular, semitonal MIDI controller. I lead prototyping and PCB design. This page tracks where the build stands. <span class="pill" data-on="2027-05-01" data-after="Completed">Ongoing</span></p>
-<div class="jump"><a href="#status">Status</a><a href="#sensing">Key sensing</a><a href="#pcb">PCB</a><a href="#rig">Switch test rig</a><a href="#next">Next steps</a></div>
+<div class="jump"><a href="#status">Status</a><a href="#sensing">Key sensing</a><a href="#pcb">PCB</a><a href="#library">Parts library</a><a href="#rig">Switch test rig</a><a href="#next">Next steps</a></div>
 </div>
 </header>
 
@@ -70,7 +70,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:10px}
 <li class="done"><h3>Requirements and reference design <span class="st d">Done</span></h3><p>Working from the School of Music's needs: a modular key interface and a banked key system with adjustable octave width and key layouts. An earlier ModuMIDI design is kept as reference material in the project repo.</p></li>
 <li class="done"><h3>Key-sensing approach <span class="st d">Done</span></h3><p>Each key is read by a ratiometric linear Hall-effect sensor powered from 3.3 V, so its output stays inside the RP2350 microcontroller's ADC range.</p></li>
 <li class="done"><h3>Switch lifetime test rig designed <span class="st d">Done</span></h3><p>A 3D-printable, servo-driven rig to press a key switch thousands of times and check that it lasts. The model, STLs, and assembly guide are finished.</p></li>
-<li class="now"><h3>Schematic <span class="st n">In progress</span></h3><p>33 Hall-sensor channels and the DC power jacks are placed in LibrePCB. Wiring the nets is next.</p></li>
+<li class="now"><h3>Schematic <span class="st n">In progress</span></h3><p>33 Hall-sensor channels and the DC power jack are placed in LibrePCB. Wiring the nets is next.</p></li>
 <li class="now"><h3>PCB layout <span class="st n">In progress</span></h3><p>The 175 × 125 mm board outline is set. Part placement and routing follow the schematic.</p></li>
 <li><h3>Build, firmware, and delivery <span class="st x">Spring 2027</span></h3><p>Order and assemble boards, write the RP2350 firmware, test with the client, and deliver in Capstone Design II.</p></li>
 </ul>
@@ -94,12 +94,25 @@ figcaption{font-size:13px;color:var(--muted);margin-top:10px}
 <div class="sec-head"><span class="eyebrow">Hardware</span><h2>The <span class="purple">PCB</span></h2></div>
 <ul class="facts prose">
 <li><b>LibrePCB</b> project with a <b>175 × 125 mm</b> board outline.</li>
-<li><b>33 linear Hall sensors</b> and <b>two DC barrel jacks</b> placed in the schematic so far.</li>
+<li><b>33 linear Hall sensors</b> and a <b>DC barrel jack</b> placed in the schematic so far.</li>
 <li>Next: wire the schematic, place the parts, and route the board. A render will go here once the layout is done.</li>
 </ul>
 </div></section>
 
-<section class="sec alt" id="rig"><div class="wrap">
+<section class="sec alt" id="library"><div class="wrap">
+<div class="sec-head"><span class="eyebrow">Hardware</span><h2>Custom parts <span class="purple">library</span></h2></div>
+<div class="prose"><p>LibrePCB didn't have most of the parts this build needs, so I made a library of symbols, footprints, and devices for them. Each footprint gets printed at 1:1 and checked against the real part before boards are ordered.</p></div>
+<ul class="facts prose">
+<li><b>Adafruit Metro RP2350:</b> Uno R3 shield headers and four M3 mounting holes, so the main board plugs on top as a shield.</li>
+<li><b>Hall sensors:</b> SS49E in TO-92, laid flat under each key switch for hand soldering, plus the TI DRV5055 in SOT-23 as a surface-mount option.</li>
+<li><b>MX-style magnetic key switch:</b> mounting holes only, with and without the center post, lined up so the sensor sits under the magnet.</li>
+<li><b>User interface:</b> NULLLAB 2.0&Prime; ST7789 display header, EC11 rotary encoder with push switch, and Omron B3F-5050 buttons.</li>
+<li><b>Power:</b> CUI PJ-102AH barrel jack for a 12 V MEAN WELL adapter.</li>
+<li><b>More keys than ADC pins:</b> the RP2350 has six analog inputs, so the design uses 16-channel analog multiplexers (CD74HC4067) to read every key.</li>
+</ul>
+</div></section>
+
+<section class="sec" id="rig"><div class="wrap">
 <div class="sec-head"><span class="eyebrow">Testing</span><h2>Switch lifetime <span class="purple">test rig</span></h2></div>
 <div class="split">
 <figure class="fig"><img src="modumidi-rig-iso.webp" alt="3D model of the switch test rig: a gray base with a vertical column, a blue servo plate holding a large red cam gear driven by a small orange pinion, a green plunger pressing down on a key switch on a green test board, and two mini breadboards on the base." width="909" height="907" loading="lazy"><figcaption>The full rig, modeled in FreeCAD.</figcaption></figure>
@@ -127,7 +140,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:10px}
 </div>
 </div></section>
 
-<section class="sec" id="next"><div class="wrap">
+<section class="sec alt" id="next"><div class="wrap">
 <div class="sec-head"><span class="eyebrow">Roadmap</span><h2>Next <span class="purple">steps</span></h2></div>
 <ul class="facts prose">
 <li><b>Test rig:</b> print and assemble it, then run lifetime tests on candidate key switches.</li>
