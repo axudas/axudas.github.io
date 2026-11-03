@@ -61,7 +61,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:10px}
 <div class="pf"></div><div class="sq p1"></div><div class="sq p2"></div>
 <div class="wrap">
 <a class="back" href="projects.html#cat-feeder">← Back to project details</a>
-<span class="eyebrow">Hardware + Software · ELEE 4230 Sensors and Transducers · 2026</span>
+<span class="eyebrow">Hardware + Software · Personal Project · 2026</span>
 <h1>Automatic Cat <span>Feeder</span></h1>
 <p>My last automatic feeder's smallest portion was too big, and it overfed my cat without my noticing. This one weighs every portion as it pours, stops at the target, and keeps an eye on her water fountain.</p>
 <div class="jump"><a href="#build">The build</a><a href="#system">How it fits together</a><a href="#scale">The food scale</a><a href="#water">Water sensors</a><a href="#calibration">Calibration</a><a href="#web">Web app</a><a href="#next">Next steps</a></div>
@@ -123,7 +123,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:10px}
 </div></section>
 
 <section class="sec alt" id="scale"><div class="wrap">
-<div class="sec-head"><span class="eyebrow">Raw sensor</span><h2>The food <span class="purple">scale</span></h2></div>
+<div class="sec-head"><span class="eyebrow">Load cell</span><h2>The food <span class="purple">scale</span></h2></div>
 <div class="prose">
 <p>I started with force-sensitive resistors. They are cheap and easy to wire, but they couldn't come close to the accuracy a 40–100 g portion needs. So I switched to a <b>300 g load cell</b>: four strain gauges glued to a machined aluminum bar and wired as a Wheatstone bridge. When the bar bends under weight, the bridge's output changes by a few thousandths of a volt.</p>
 <p>That signal is far too small for the ESP32 to read directly, so it goes through an amplifier I designed:</p>
@@ -150,7 +150,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:10px}
 </div></section>
 
 <section class="sec" id="water"><div class="wrap">
-<div class="sec-head"><span class="eyebrow">Pre-packaged sensors</span><h2>Watching the <span class="purple">water</span></h2></div>
+<div class="sec-head"><span class="eyebrow">Sensors</span><h2>Watching the <span class="purple">water</span></h2></div>
 <div class="prose">
 <p><b>Water level.</b> The level sensor is a strip of exposed traces. As water covers more of the strip, its reading rises. The device shows it as a percentage (raw 1,200 is empty and 3,000 is full) and warns me before the fountain's pump can run dry.</p>
 <p><b>Turbidity.</b> The turbidity sensor shines light through the water and measures how much gets through. Clean water passes more light. I tuned the sensor board in clean water, then added kitty litter a little at a time, since litter is what usually ends up in a cat's water. The firmware sorts each reading into three states:</p>
