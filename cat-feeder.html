@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automatic Cat Feeder | Aidan Carr</title>
+<meta name="description" content="How Aidan Carr's ESP32 cat feeder weighs every portion with a load cell, monitors water level and turbidity, and serves a web app for remote feeding.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.split{display:grid;grid-template-columns:1fr 1.2fr;gap:50px;align-items:center}
+.photo img{width:100%;height:auto;display:block;border-radius:8px;box-shadow:0 20px 40px rgba(29,28,34,.18)}
+figure{margin:0}
+figcaption{font-size:13px;color:var(--muted);margin-top:10px}
+.facts{list-style:none}
+.facts li{font-size:15px;color:#4a4954;padding:10px 0 10px 18px;position:relative;border-bottom:1px solid #eee}
+.facts li:last-child{border:0}
+.facts li::before{content:'';position:absolute;left:0;top:19px;width:7px;height:7px;background:var(--purple)}
+.facts b{font-family:'Josefin Sans';color:var(--ink)}
+.prose{max-width:760px}
+.prose p{color:#4a4954;margin-bottom:14px}
+.eq{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:15px;background:var(--dark);color:#fff;border-radius:8px;padding:16px 20px;margin:6px 0 18px;overflow-x:auto;white-space:nowrap;border-left:4px solid var(--purple)}
+.eq .c{color:#c4a5ff}
+.fig-card{background:#fff;border-radius:10px;padding:28px 28px 20px;box-shadow:0 10px 30px rgba(29,28,34,.07);margin:28px 0}
+.fig-card figcaption{margin-top:14px}
+.blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:8px}
+.block{background:var(--light);border-radius:8px;padding:24px;border-left:4px solid var(--purple)}
+.sec.alt .block{background:#fff}
+.block h3{font-size:19px;margin-bottom:8px}
+.block p{font-size:14px;color:#4a4954}
+.block code{font-size:12.5px;background:#ece6ff;color:var(--purple-d);padding:1px 6px;border-radius:4px}
+.block .n{font-family:'Josefin Sans';font-weight:700;color:var(--purple);font-size:14px;display:block;margin-bottom:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:8px 0 18px}
+.stats div{background:#fff;border-radius:8px;padding:16px 18px;border-top:3px solid var(--purple);box-shadow:0 6px 20px rgba(29,28,34,.05)}
+.stats b{display:block;font-family:'Josefin Sans';font-size:22px;color:var(--purple)}
+.stats small{color:var(--muted);font-size:13px}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.scroll svg{min-width:600px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:560px}
+.pair img{width:100%;height:auto;display:block;border-radius:8px}
+@media(max-width:980px){.split{grid-template-columns:1fr;gap:30px}.blocks{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr}.fig-card{padding:18px 14px 14px}}
+@media(max-width:600px){.blocks{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+<a class="logo" href="index.html">Aidan<span>.</span></a>
+<ul>
+<li><a href="index.html">Home</a></li>
+<li><a href="index.html#about">About</a></li>
+<li><a class="on" href="projects.html">Projects</a></li>
+<li><a href="experience.html">Experience</a></li>
+<li><a href="index.html#contact">Contact</a></li>
+</ul>
+</div></nav>
+
+<header class="page-hero">
+<div class="pf"></div><div class="sq p1"></div><div class="sq p2"></div>
+<div class="wrap">
+<a class="back" href="projects.html#cat-feeder">← Back to project details</a>
+<span class="eyebrow">Hardware + Software · ELEE 4230 Sensors and Transducers · 2026</span>
+<h1>Automatic Cat <span>Feeder</span></h1>
+<p>My last automatic feeder's smallest portion was too big, and it overfed my cat without my noticing. This one weighs every portion as it pours, stops at the target, and keeps an eye on her water fountain.</p>
+<div class="jump"><a href="#build">The build</a><a href="#system">How it fits together</a><a href="#scale">The food scale</a><a href="#water">Water sensors</a><a href="#calibration">Calibration</a><a href="#web">Web app</a><a href="#next">Next steps</a></div>
+</div>
+</header>
+
+<section class="sec alt" id="build"><div class="wrap split">
+<figure class="photo">
+<img src="cat-feeder-final.webp" alt="The finished feeder: a white hopper on top of a 3D-printed base, with a steel bowl on the load-cell mount and the water sensors on wires beside it." width="675" height="900" loading="lazy">
+<figcaption>The finished feeder. The hopper and dispenser came from a commercial feeder. The housing, electronics and bowl mount under them are mine.</figcaption>
+</figure>
+<div>
+<span class="eyebrow">Hardware</span>
+<h2 style="font-size:clamp(30px,3.6vw,42px);line-height:1.1;margin-bottom:18px">The <span class="purple">build</span></h2>
+<ul class="facts">
+<li><b>ESP32</b> runs everything: the sensors, the feeding loop, the display and the web server.</li>
+<li><b>300 g load cell</b> under the bowl weighs the food as it is dispensed.</li>
+<li><b>Water-level sensor</b> and <b>turbidity sensor</b> sit in the water fountain.</li>
+<li><b>Capacitive touch plate</b> for input and an <b>OLED display</b> for status, on the device itself.</li>
+<li><b>3D-printed housing</b> and bowl mount. The food only touches the hopper and the steel bowl, never PLA.</li>
+<li><b>Two power sources:</b> a 9 V battery for the analog circuit and a 5 V pack for the ESP32 and servo. The servo and WiFi drew enough current to drag the amplifier's reference down when they shared a supply.</li>
+</ul>
+</div>
+</div></section>
+
+<section class="sec" id="system"><div class="wrap">
+<div class="sec-head"><span class="eyebrow">Overview</span><h2>How it fits <span class="purple">together</span></h2></div>
+<figure class="fig-card">
+<div class="scroll"><svg viewBox="0 0 900 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sysT sysD" style="width:100%;height:auto;display:block">
+<title id="sysT">How the feeder is connected</title>
+<desc id="sysD">Four inputs feed the ESP32: the load cell through its amplifier, the water level sensor, the turbidity sensor, and the touch plate. The ESP32 drives the dispenser servo, the OLED display and the SD card, and talks over WiFi to the web app and ThingSpeak. The servo drops food into the bowl on the load cell, which closes the feeding loop.</desc>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6b6a75"/></marker></defs>
+<text x="0" y="22" font-size="13" font-weight="600" fill="#6b6a75" letter-spacing=".08em">INPUTS</text>
+<text x="700" y="22" font-size="13" font-weight="600" fill="#6b6a75" letter-spacing=".08em">OUTPUTS</text>
+<rect x="0" y="40" width="200" height="62" rx="8" fill="#fff" stroke="#8b3dff" stroke-width="2"/><text x="100.0" y="68.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#2f2e35">Load cell</text><text x="100.0" y="87.0" text-anchor="middle" font-size="12.5" fill="#6b6a75">300 g, via amplifier</text>
+<rect x="0" y="122" width="200" height="62" rx="8" fill="#fff" stroke="#8b3dff" stroke-width="2"/><text x="100.0" y="150.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#2f2e35">Water level</text><text x="100.0" y="169.0" text-anchor="middle" font-size="12.5" fill="#6b6a75">capacitive traces</text>
+<rect x="0" y="204" width="200" height="62" rx="8" fill="#fff" stroke="#8b3dff" stroke-width="2"/><text x="100.0" y="232.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#2f2e35">Turbidity</text><text x="100.0" y="251.0" text-anchor="middle" font-size="12.5" fill="#6b6a75">light through water</text>
+<rect x="0" y="286" width="200" height="62" rx="8" fill="#fff" stroke="#8b3dff" stroke-width="2"/><text x="100.0" y="314.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#2f2e35">Touch plate</text><text x="100.0" y="333.0" text-anchor="middle" font-size="12.5" fill="#6b6a75">capacitive button</text>
+<rect x="340" y="110" width="220" height="170" rx="8" fill="#8b3dff" stroke="#8b3dff" stroke-width="2"/><text x="450.0" y="192.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#fff">ESP32</text><text x="450.0" y="211.0" text-anchor="middle" font-size="12.5" fill="#e9ddff">filter · convert · decide</text>
+<rect x="700" y="40" width="200" height="62" rx="8" fill="#fff" stroke="#8b3dff" stroke-width="2"/><text x="800.0" y="68.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#2f2e35">Dispenser servo</text><text x="800.0" y="87.0" text-anchor="middle" font-size="12.5" fill="#6b6a75">drops food</text>
+<rect x="700" y="122" width="200" height="62" rx="8" fill="#fff" stroke="#8b3dff" stroke-width="2"/><text x="800.0" y="150.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#2f2e35">OLED display</text><text x="800.0" y="169.0" text-anchor="middle" font-size="12.5" fill="#6b6a75">status on the device</text>
+<rect x="700" y="204" width="200" height="62" rx="8" fill="#fff" stroke="#8b3dff" stroke-width="2"/><text x="800.0" y="232.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#2f2e35">SD card</text><text x="800.0" y="251.0" text-anchor="middle" font-size="12.5" fill="#6b6a75">CSV log</text>
+<rect x="700" y="286" width="200" height="62" rx="8" fill="#fff" stroke="#8b3dff" stroke-width="2"/><text x="800.0" y="314.0" text-anchor="middle" font-family="Josefin Sans,sans-serif" font-weight="700" font-size="16" fill="#2f2e35">WiFi</text><text x="800.0" y="333.0" text-anchor="middle" font-size="12.5" fill="#6b6a75">web app · ThingSpeak</text>
+<path d="M200 71L340 150" stroke="#6b6a75" stroke-width="2" marker-end="url(#ah)"/><path d="M200 153L340 180" stroke="#6b6a75" stroke-width="2" marker-end="url(#ah)"/><path d="M200 235L340 210" stroke="#6b6a75" stroke-width="2" marker-end="url(#ah)"/><path d="M200 317L340 240" stroke="#6b6a75" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M560 150L700 71" stroke="#6b6a75" stroke-width="2" marker-end="url(#ah)"/><path d="M560 180L700 153" stroke="#6b6a75" stroke-width="2" marker-end="url(#ah)"/><path d="M560 210L700 235" stroke="#6b6a75" stroke-width="2" marker-end="url(#ah)"/><path d="M560 240L700 317" stroke="#6b6a75" stroke-width="2" marker-end="url(#ah)"/>
+<path d="M800 40V8H100V36" fill="none" stroke="#8b3dff" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<rect x="330" y="0" width="240" height="18" fill="#fff"/>
+<text x="450" y="13" text-anchor="middle" font-size="12.5" font-weight="600" fill="#8b3dff">food lands in the bowl on the load cell</text>
+<text x="450" y="390" text-anchor="middle" font-size="12.5" fill="#6b6a75">Dashed line: the feeding loop. The servo only runs until the scale reads the target.</text>
+</svg></div>
+</figure>
+<div class="prose"><p>Feeding is a closed loop. Instead of running the motor for a fixed time and hoping, the ESP32 dispenses a little food, weighs the bowl, and repeats until it reaches the target:</p></div>
+<div class="blocks">
+<div class="block"><span class="n">1</span><h3>Weigh</h3><p>Read the bowl. If it is already at the target, or the scale is overloaded, don't dispense.</p></div>
+<div class="block"><span class="n">2</span><h3>Pulse</h3><p>Open the dispenser briefly, close it, and wait for the food to settle.</p></div>
+<div class="block"><span class="n">3</span><h3>Stop or alert</h3><p>Stop when the bowl is within 5 g of the target. If several pulses add nothing, the hopper is stuck or empty, and the web app says so.</p></div>
+</div>
+<div class="prose" style="margin-top:22px"><p>Feeding runs once a day at a set time, or whenever I press <b>Feed now</b> in the web app.</p></div>
+</div></section>
+
+<section class="sec alt" id="scale"><div class="wrap">
+<div class="sec-head"><span class="eyebrow">Raw sensor</span><h2>The food <span class="purple">scale</span></h2></div>
+<div class="prose">
+<p>I started with force-sensitive resistors. They are cheap and easy to wire, but they couldn't come close to the accuracy a 40–100 g portion needs. So I switched to a <b>300 g load cell</b>: four strain gauges glued to a machined aluminum bar and wired as a Wheatstone bridge. When the bar bends under weight, the bridge's output changes by a few thousandths of a volt.</p>
+<p>That signal is far too small for the ESP32 to read directly, so it goes through an amplifier I designed:</p>
+</div>
+<div class="blocks">
+<div class="block"><h3>Wheatstone bridge</h3><p>Outputs <b>3.4 to 4.6 mV</b> across the working range. It is very sensitive, which also means it is noisy.</p></div>
+<div class="block"><h3>Split supply</h3><p>The 9 V battery is split into <b>±4.5 V</b> with a voltage divider and TL081 buffers, so the reference stays balanced as the current draw changes.</p></div>
+<div class="block"><h3>Differential amplifier</h3><p>TL081 op-amps buffer the bridge, then a differential stage shifts and scales it up to the ADC's range.</p></div>
+<div class="block"><h3>Low-pass filter</h3><p>An RC filter (100 Ω, 1 µF) cuts noise above <b>1.6 kHz</b> before the ADC.</p></div>
+<div class="block"><h3>ADC + conversion</h3><p>The ESP32 reads the voltage and converts it to grams with a linear transfer function.</p></div>
+<div class="block"><h3>Kalman filter</h3><p>Smooths each new reading against its running estimate, so a single noisy sample can't stop the dispenser early.</p></div>
+</div>
+<div class="prose" style="margin-top:26px">
+<div class="eq">V<sub>out</sub> = <span class="c">33</span> · (V<sub>2</sub> − 3.1)</div>
+<div class="eq">f<sub>c</sub> = 1 / (2π · 100 Ω · 1 µF) ≈ <span class="c">1.59 kHz</span></div>
+<div class="eq">grams = (ADC<sub>raw</sub> − <span class="c">919</span>) × (112 / 3176)</div>
+<div class="eq">X<sub>k</sub> = X<sub>k−1</sub> + K · (Z<sub>k</sub> − X<sub>k−1</sub>)</div>
+<p>The 741 op-amps I tried first didn't work well, and I burned through a few. The TL081 has a wider operating range and fixed it.</p>
+</div>
+<figure class="photo" style="max-width:560px;margin-top:26px">
+<img src="cat-feeder-load-cell.webp" alt="Breadboard with the ESP32, TL081 op-amps and wiring for the load-cell amplifier." width="675" height="900" loading="lazy">
+<figcaption>The working load-cell amplifier on a breadboard, before the final enclosure.</figcaption>
+</figure>
+</div></section>
+
+<section class="sec" id="water"><div class="wrap">
+<div class="sec-head"><span class="eyebrow">Pre-packaged sensors</span><h2>Watching the <span class="purple">water</span></h2></div>
+<div class="prose">
+<p><b>Water level.</b> The level sensor is a strip of exposed traces. As water covers more of the strip, its reading rises. The device shows it as a percentage (raw 1,200 is empty and 3,000 is full) and warns me before the fountain's pump can run dry.</p>
+<p><b>Turbidity.</b> The turbidity sensor shines light through the water and measures how much gets through. Clean water passes more light. I tuned the sensor board in clean water, then added kitty litter a little at a time, since litter is what usually ends up in a cat's water. The firmware sorts each reading into three states:</p>
+<div class="eq">raw &gt; <span class="c">3000</span> → Clear  ·  raw &gt; <span class="c">1800</span> → Cloudy  ·  otherwise → Dirty</div>
+</div>
+<div class="pair" style="margin-top:10px">
+<figure><img src="cat-feeder-turbidity-clear.webp" alt="A glass of clear water with the turbidity sensor beside it." width="525" height="700" loading="lazy"><figcaption>Clean water.</figcaption></figure>
+<figure><img src="cat-feeder-turbidity-litter.webp" alt="The same glass, now cloudy with kitty litter stirred in." width="525" height="700" loading="lazy"><figcaption>After adding kitty litter.</figcaption></figure>
+</div>
+</div></section>
+
+<section class="sec alt" id="calibration"><div class="wrap">
+<div class="sec-head"><span class="eyebrow">Data</span><h2>Calibration</h2></div>
+<div class="prose">
+<p>The water-level sensor came with almost no documentation, so I measured it myself. The ESP32 logged readings to its SD card while I raised the water in 2.5 mm steps, pressing a button to mark each new height.</p>
+</div>
+<div class="stats">
+<div><b>835</b><small>readings across 17 heights, 0 to 40 mm</small></div>
+<div><b>R² = 0.84</b><small>for the recalibrated fit. My first nine-point fit scored below zero on this data.</small></div>
+<div><b>±4.6 mm</b><small>standard error of the fit. The sensor is noisiest below 17.5 mm.</small></div>
+</div>
+<figure class="fig-card">
+<div class="scroll"><svg viewBox="0 0 760 440" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="wlT wlD" style="width:100%;height:auto;display:block">
+<title id="wlT">Water level sensor calibration</title><desc id="wlD">Mean raw reading at each of 16 heights from 2.5 to 40 mm, with one-standard-deviation bars and the recalibrated fourth-order fit. Readings rise from about 1,230 at 5 mm to about 2,190 at 40 mm, and the spread is widest below 17.5 mm.</desc>
+<rect x="70" y="16" width="670" height="366" fill="#faf9fe" stroke="#e7e3f2"/>
+<path d="M117.9 16V382" stroke="#e7e3f2"/><text x="117.9" y="402" text-anchor="middle" font-size="15" fill="#6b6a75">1000</text>
+<path d="M237.5 16V382" stroke="#e7e3f2"/><text x="237.5" y="402" text-anchor="middle" font-size="15" fill="#6b6a75">1250</text>
+<path d="M357.1 16V382" stroke="#e7e3f2"/><text x="357.1" y="402" text-anchor="middle" font-size="15" fill="#6b6a75">1500</text>
+<path d="M476.8 16V382" stroke="#e7e3f2"/><text x="476.8" y="402" text-anchor="middle" font-size="15" fill="#6b6a75">1750</text>
+<path d="M596.4 16V382" stroke="#e7e3f2"/><text x="596.4" y="402" text-anchor="middle" font-size="15" fill="#6b6a75">2000</text>
+<path d="M716.1 16V382" stroke="#e7e3f2"/><text x="716.1" y="402" text-anchor="middle" font-size="15" fill="#6b6a75">2250</text>
+<path d="M70 382.0H740" stroke="#e7e3f2"/><text x="60" y="386.0" text-anchor="end" font-size="15" fill="#6b6a75">0</text>
+<path d="M70 294.9H740" stroke="#e7e3f2"/><text x="60" y="298.9" text-anchor="end" font-size="15" fill="#6b6a75">10</text>
+<path d="M70 207.7H740" stroke="#e7e3f2"/><text x="60" y="211.7" text-anchor="end" font-size="15" fill="#6b6a75">20</text>
+<path d="M70 120.6H740" stroke="#e7e3f2"/><text x="60" y="124.6" text-anchor="end" font-size="15" fill="#6b6a75">30</text>
+<path d="M70 33.4H740" stroke="#e7e3f2"/><text x="60" y="37.4" text-anchor="end" font-size="15" fill="#6b6a75">40</text>
+<text x="405.0" y="432" text-anchor="middle" font-size="15.5" fill="#6b6a75">Raw sensor reading (ESP32 ADC)</text>
+<text transform="translate(16 199.0) rotate(-90)" text-anchor="middle" font-size="15.5" fill="#6b6a75">Water height (mm)</text>
+<polyline points="117.9,352.2 119.4,352.2 121.0,352.2 122.5,352.1 124.1,352.1 125.7,352.0 127.2,352.0 128.8,351.9 130.3,351.9 131.9,351.8 133.4,351.8 135.0,351.7 136.6,351.7 138.1,351.6 139.7,351.5 141.2,351.5 142.8,351.4 144.4,351.4 145.9,351.3 147.5,351.2 149.0,351.2 150.6,351.1 152.2,351.0 153.7,350.9 155.3,350.9 156.8,350.8 158.4,350.7 160.0,350.6 161.5,350.5 163.1,350.4 164.6,350.4 166.2,350.3 167.8,350.2 169.3,350.1 170.9,350.0 172.4,349.9 174.0,349.8 175.5,349.7 177.1,349.6 178.7,349.5 180.2,349.4 181.8,349.3 183.3,349.2 184.9,349.0 186.5,348.9 188.0,348.8 189.6,348.7 191.1,348.6 192.7,348.4 194.3,348.3 195.8,348.2 197.4,348.0 198.9,347.9 200.5,347.8 202.1,347.6 203.6,347.5 205.2,347.3 206.7,347.2 208.3,347.0 209.9,346.9 211.4,346.7 213.0,346.6 214.5,346.4 216.1,346.2 217.6,346.1 219.2,345.9 220.8,345.7 222.3,345.5 223.9,345.4 225.4,345.2 227.0,345.0 228.6,344.8 230.1,344.6 231.7,344.4 233.2,344.2 234.8,344.0 236.4,343.8 237.9,343.6 239.5,343.4 241.0,343.2 242.6,343.0 244.2,342.8 245.7,342.5 247.3,342.3 248.8,342.1 250.4,341.9 252.0,341.6 253.5,341.4 255.1,341.1 256.6,340.9 258.2,340.6 259.7,340.4 261.3,340.1 262.9,339.9 264.4,339.6 266.0,339.3 267.5,339.1 269.1,338.8 270.7,338.5 272.2,338.2 273.8,337.9 275.3,337.7 276.9,337.4 278.5,337.1 280.0,336.8 281.6,336.5 283.1,336.1 284.7,335.8 286.3,335.5 287.8,335.2 289.4,334.9 290.9,334.5 292.5,334.2 294.1,333.9 295.6,333.5 297.2,333.2 298.7,332.8 300.3,332.5 301.8,332.1 303.4,331.7 305.0,331.4 306.5,331.0 308.1,330.6 309.6,330.2 311.2,329.9 312.8,329.5 314.3,329.1 315.9,328.7 317.4,328.3 319.0,327.9 320.6,327.4 322.1,327.0 323.7,326.6 325.2,326.2 326.8,325.7 328.4,325.3 329.9,324.9 331.5,324.4 333.0,324.0 334.6,323.5 336.2,323.0 337.7,322.6 339.3,322.1 340.8,321.6 342.4,321.1 343.9,320.7 345.5,320.2 347.1,319.7 348.6,319.2 350.2,318.6 351.7,318.1 353.3,317.6 354.9,317.1 356.4,316.6 358.0,316.0 359.5,315.5 361.1,314.9 362.7,314.4 364.2,313.8 365.8,313.3 367.3,312.7 368.9,312.1 370.5,311.5 372.0,310.9 373.6,310.4 375.1,309.8 376.7,309.1 378.3,308.5 379.8,307.9 381.4,307.3 382.9,306.7 384.5,306.0 386.0,305.4 387.6,304.7 389.2,304.1 390.7,303.4 392.3,302.8 393.8,302.1 395.4,301.4 397.0,300.7 398.5,300.0 400.1,299.3 401.6,298.6 403.2,297.9 404.8,297.2 406.3,296.5 407.9,295.8 409.4,295.0 411.0,294.3 412.6,293.5 414.1,292.8 415.7,292.0 417.2,291.2 418.8,290.5 420.4,289.7 421.9,288.9 423.5,288.1 425.0,287.3 426.6,286.5 428.1,285.7 429.7,284.8 431.3,284.0 432.8,283.2 434.4,282.3 435.9,281.5 437.5,280.6 439.1,279.7 440.6,278.9 442.2,278.0 443.7,277.1 445.3,276.2 446.9,275.3 448.4,274.4 450.0,273.4 451.5,272.5 453.1,271.6 454.7,270.6 456.2,269.7 457.8,268.7 459.3,267.8 460.9,266.8 462.5,265.8 464.0,264.8 465.6,263.8 467.1,262.8 468.7,261.8 470.2,260.8 471.8,259.7 473.4,258.7 474.9,257.6 476.5,256.6 478.0,255.5 479.6,254.5 481.2,253.4 482.7,252.3 484.3,251.2 485.8,250.1 487.4,249.0 489.0,247.8 490.5,246.7 492.1,245.6 493.6,244.4 495.2,243.3 496.8,242.1 498.3,240.9 499.9,239.7 501.4,238.6 503.0,237.3 504.6,236.1 506.1,234.9 507.7,233.7 509.2,232.5 510.8,231.2 512.3,229.9 513.9,228.7 515.5,227.4 517.0,226.1 518.6,224.8 520.1,223.5 521.7,222.2 523.3,220.9 524.8,219.6 526.4,218.2 527.9,216.9 529.5,215.5 531.1,214.1 532.6,212.8 534.2,211.4 535.7,210.0 537.3,208.6 538.9,207.2 540.4,205.7 542.0,204.3 543.5,202.8 545.1,201.4 546.7,199.9 548.2,198.4 549.8,197.0 551.3,195.5 552.9,193.9 554.4,192.4 556.0,190.9 557.6,189.4 559.1,187.8 560.7,186.3 562.2,184.7 563.8,183.1 565.4,181.5 566.9,179.9 568.5,178.3 570.0,176.7 571.6,175.0 573.2,173.4 574.7,171.7 576.3,170.1 577.8,168.4 579.4,166.7 581.0,165.0 582.5,163.3 584.1,161.6 585.6,159.8 587.2,158.1 588.8,156.3 590.3,154.6 591.9,152.8 593.4,151.0 595.0,149.2 596.5,147.4 598.1,145.6 599.7,143.7 601.2,141.9 602.8,140.0 604.3,138.1 605.9,136.3 607.5,134.4 609.0,132.5 610.6,130.5 612.1,128.6 613.7,126.7 615.3,124.7 616.8,122.8 618.4,120.8 619.9,118.8 621.5,116.8 623.1,114.8 624.6,112.7 626.2,110.7 627.7,108.6 629.3,106.6 630.9,104.5 632.4,102.4 634.0,100.3 635.5,98.2 637.1,96.1 638.6,93.9 640.2,91.8 641.8,89.6 643.3,87.4 644.9,85.3 646.4,83.0 648.0,80.8 649.6,78.6 651.1,76.4 652.7,74.1 654.2,71.8 655.8,69.5 657.4,67.3 658.9,64.9 660.5,62.6 662.0,60.3 663.6,57.9 665.2,55.6 666.7,53.2 668.3,50.8 669.8,48.4 671.4,46.0 673.0,43.6 674.5,41.1 676.1,38.7 677.6,36.2 679.2,33.7 680.7,31.2 682.3,28.7 683.9,26.1 685.4,23.6 687.0,21.0 688.5,18.5" fill="none" stroke="#2f2e35" stroke-width="2.5"/>
+<path d="M157.7 360.2H483.8" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="320.7" cy="360.2" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>2.5 mm: mean 1424, ±341 (n = 36)</title></circle>
+<path d="M172.8 338.4H282.1" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="227.5" cy="338.4" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>5 mm: mean 1229, ±114 (n = 64)</title></circle>
+<path d="M271.2 316.6H387.2" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="329.2" cy="316.6" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>7.5 mm: mean 1442, ±121 (n = 33)</title></circle>
+<path d="M338.6 294.9H428.3" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="383.5" cy="294.9" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>10 mm: mean 1555, ±94 (n = 48)</title></circle>
+<path d="M378.4 273.1H466.5" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="422.5" cy="273.1" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>12.5 mm: mean 1636, ±92 (n = 50)</title></circle>
+<path d="M436.7 251.3H515.9" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="476.3" cy="251.3" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>15 mm: mean 1749, ±83 (n = 70)</title></circle>
+<path d="M478.6 229.5H541.3" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="510.0" cy="229.5" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>17.5 mm: mean 1819, ±66 (n = 71)</title></circle>
+<path d="M523.8 207.7H624.5" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="574.2" cy="207.7" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>20 mm: mean 1953, ±105 (n = 56)</title></circle>
+<path d="M553.0 185.9H588.8" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="570.9" cy="185.9" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>22.5 mm: mean 1947, ±37 (n = 36)</title></circle>
+<path d="M570.5 164.1H629.3" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="599.9" cy="164.1" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>25 mm: mean 2007, ±61 (n = 55)</title></circle>
+<path d="M563.5 142.4H633.0" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="598.3" cy="142.4" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>27.5 mm: mean 2004, ±73 (n = 69)</title></circle>
+<path d="M587.3 120.6H627.4" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="607.3" cy="120.6" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>30 mm: mean 2023, ±42 (n = 68)</title></circle>
+<path d="M598.3 98.8H635.0" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="616.7" cy="98.8" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>32.5 mm: mean 2042, ±38 (n = 34)</title></circle>
+<path d="M635.9 77.0H666.1" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="651.0" cy="77.0" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>35 mm: mean 2114, ±32 (n = 25)</title></circle>
+<path d="M621.8 55.2H650.6" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="636.2" cy="55.2" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>37.5 mm: mean 2083, ±30 (n = 48)</title></circle>
+<path d="M658.9 33.4H717.6" stroke="#8b3dff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>
+<circle cx="688.3" cy="33.4" r="5.5" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>40 mm: mean 2192, ±61 (n = 57)</title></circle>
+<circle cx="88" cy="38" r="5.5" fill="#8b3dff"/><text x="102" y="42.5" font-size="15" fill="#2f2e35">Mean reading at each height (bar = ±1 std dev)</text>
+<path d="M80 62h16" stroke="#2f2e35" stroke-width="2.5"/><text x="102" y="66.5" font-size="15" fill="#2f2e35">Recalibrated 4th-order fit (R² = 0.84)</text>
+</svg></div>
+<figcaption>Each dot is the mean reading at one height. The bars show how much the readings spread (±1 standard deviation). The sensor isn't precise, but it is plenty for "refill the fountain soon." Hover a dot for its numbers.</figcaption>
+</figure>
+<div class="prose">
+<p>I fit a 4th-order polynomial to all 835 readings and checked it with a 95% Scheffé confidence band. Readings outside that band would mean the sensor isn't behaving as expected.</p>
+<div class="eq">h = 3.2143e-12·x⁴ − 8.2985e-10·x³ − 9.9705e-6·x² + 1.0999e-2·x + 1.7e-3</div>
+<p>The load cell was easier. I put eleven items on it that I had weighed on a separate, accurate scale, and measured the bridge output. Over the 0–110 g range I care about, it is close to a straight line:</p>
+</div>
+<figure class="fig-card">
+<div class="scroll"><svg viewBox="0 0 760 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="lcT lcD" style="width:100%;height:auto;display:block">
+<title id="lcT">Load cell calibration</title><desc id="lcD">Eleven reference masses from 0 to 110.7 grams against the Wheatstone bridge output, rising from 3.4 to 4.6 millivolts along a straight line.</desc>
+<rect x="70" y="16" width="670" height="326" fill="#faf9fe" stroke="#e7e3f2"/>
+<path d="M70.0 16V342" stroke="#e7e3f2"/><text x="70.0" y="362" text-anchor="middle" font-size="15" fill="#6b6a75">0</text>
+<path d="M181.7 16V342" stroke="#e7e3f2"/><text x="181.7" y="362" text-anchor="middle" font-size="15" fill="#6b6a75">20</text>
+<path d="M293.3 16V342" stroke="#e7e3f2"/><text x="293.3" y="362" text-anchor="middle" font-size="15" fill="#6b6a75">40</text>
+<path d="M405.0 16V342" stroke="#e7e3f2"/><text x="405.0" y="362" text-anchor="middle" font-size="15" fill="#6b6a75">60</text>
+<path d="M516.7 16V342" stroke="#e7e3f2"/><text x="516.7" y="362" text-anchor="middle" font-size="15" fill="#6b6a75">80</text>
+<path d="M628.3 16V342" stroke="#e7e3f2"/><text x="628.3" y="362" text-anchor="middle" font-size="15" fill="#6b6a75">100</text>
+<path d="M740.0 16V342" stroke="#e7e3f2"/><text x="740.0" y="362" text-anchor="middle" font-size="15" fill="#6b6a75">120</text>
+<path d="M70 318.7H740" stroke="#e7e3f2"/><text x="60" y="322.7" text-anchor="end" font-size="15" fill="#6b6a75">3.4</text>
+<path d="M70 272.1H740" stroke="#e7e3f2"/><text x="60" y="276.1" text-anchor="end" font-size="15" fill="#6b6a75">3.6</text>
+<path d="M70 225.6H740" stroke="#e7e3f2"/><text x="60" y="229.6" text-anchor="end" font-size="15" fill="#6b6a75">3.8</text>
+<path d="M70 179.0H740" stroke="#e7e3f2"/><text x="60" y="183.0" text-anchor="end" font-size="15" fill="#6b6a75">4.0</text>
+<path d="M70 132.4H740" stroke="#e7e3f2"/><text x="60" y="136.4" text-anchor="end" font-size="15" fill="#6b6a75">4.2</text>
+<path d="M70 85.9H740" stroke="#e7e3f2"/><text x="60" y="89.9" text-anchor="end" font-size="15" fill="#6b6a75">4.4</text>
+<path d="M70 39.3H740" stroke="#e7e3f2"/><text x="60" y="43.3" text-anchor="end" font-size="15" fill="#6b6a75">4.6</text>
+<text x="405.0" y="392" text-anchor="middle" font-size="15.5" fill="#6b6a75">Mass on the scale (g)</text>
+<text transform="translate(16 179.0) rotate(-90)" text-anchor="middle" font-size="15.5" fill="#6b6a75">Bridge output (mV)</text>
+<path d="M70.0 324.6L712.1 33.2" stroke="#2f2e35" stroke-width="2.5"/>
+<circle cx="70.0" cy="318.7" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>0 g: 3.4 mV</title></circle>
+<circle cx="132.0" cy="295.4" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>11.1 g: 3.5 mV</title></circle>
+<circle cx="178.9" cy="272.1" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>19.5 g: 3.6 mV</title></circle>
+<circle cx="242.5" cy="248.9" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>30.9 g: 3.7 mV</title></circle>
+<circle cx="305.6" cy="225.6" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>42.2 g: 3.8 mV</title></circle>
+<circle cx="334.6" cy="202.3" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>47.4 g: 3.9 mV</title></circle>
+<circle cx="405.0" cy="179.0" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>60 g: 4 mV</title></circle>
+<circle cx="457.5" cy="155.7" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>69.4 g: 4.1 mV</title></circle>
+<circle cx="531.2" cy="109.1" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>82.6 g: 4.3 mV</title></circle>
+<circle cx="594.3" cy="85.9" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>93.9 g: 4.4 mV</title></circle>
+<circle cx="688.1" cy="39.3" r="6" fill="#8b3dff" stroke="#fff" stroke-width="2"><title>110.7 g: 4.6 mV</title></circle>
+<circle cx="88" cy="38" r="6" fill="#8b3dff"/><text x="102" y="42.5" font-size="15" fill="#2f2e35">Reference mass, weighed on a separate scale</text>
+<path d="M80 62h16" stroke="#2f2e35" stroke-width="2.5"/><text x="102" y="66.5" font-size="15" fill="#2f2e35">Linear fit: 0.0109 mV/g + 3.375 mV (R² = 0.997)</text>
+</svg></div>
+<figcaption>The load cell bends away from a straight line only at the very bottom and top of its range. Limiting it to normal portion sizes keeps the conversion linear and simple.</figcaption>
+</figure>
+</div></section>
+
+<section class="sec" id="web"><div class="wrap">
+<div class="sec-head"><span class="eyebrow">IoT</span><h2>The web <span class="purple">app</span></h2></div>
+<div class="prose">
+<p>The ESP32 hosts its own web page. From my phone or laptop I can see the water level and how clean it is, check the feeder's status, enter the portion size, and press <b>Feed now</b>. I reach it securely over a VPN, so I can feed her even when I'm out of town.</p>
+<ul class="facts">
+<li><b>Refill the water</b> when the level drops too low.</li>
+<li><b>Change the water</b> when the turbidity reads Dirty.</li>
+<li><b>Hopper stuck or empty</b> when the dispenser turns but the scale doesn't change.</li>
+</ul>
+<p style="margin-top:14px">Every reading is also saved to the SD card and uploaded to <b>ThingSpeak</b>, a free IoT logging service. That way the history lasts longer than the device's local storage, and I can download it from anywhere.</p>
+</div>
+<figure class="fig-card">
+<img src="cat-feeder-thingspeak.webp" alt="ThingSpeak dashboard with three line charts of the feeder's readings over time." width="1400" height="810" loading="lazy" style="width:100%;height:auto;display:block;border-radius:6px">
+<figcaption>The ThingSpeak channel: one chart per sensor reading.</figcaption>
+</figure>
+</div></section>
+
+<section class="sec alt" id="next"><div class="wrap">
+<div class="sec-head"><span class="eyebrow">Status</span><h2>Next <span class="purple">steps</span></h2></div>
+<div class="prose">
+<p>It works, and I plan to keep using it for my cat and improving it:</p>
+<ul class="facts">
+<li><b>Finer portions:</b> ±5 g works, but it is coarse when a portion is only 40 g.</li>
+<li><b>Text alerts:</b> add a cellular module so I get alerts without keeping the web page open.</li>
+<li><b>A better float:</b> 3D-printed plastic is porous, so the turbidity sensor's float doesn't stay up. It needs a different material or process.</li>
+<li><b>Cleaner hardware:</b> a printed PCB in place of the breadboard, and a redesigned enclosure that protects the water probes better.</li>
+</ul>
+</div>
+</div></section>
+
+<section class="contact"><div class="wrap">
+<span class="eyebrow">Contact</span>
+<h2>Want to talk<br>about <span class="purple">the build?</span></h2>
+<p>Happy to walk through the sensors, the amplifier, or the calibration. Email is the fastest way to reach me.</p>
+<div class="ctas">
+<a class="btn" href="mailto:aidand.carr925@gmail.com">aidand.carr925@gmail.com</a>
+<a class="link" href="projects.html">See all projects →</a>
+<a class="link" href="index.html">Back to home</a>
+</div>
+<footer><span>© 2026 Aidan Carr</span><span>aidancarr.tech</span></footer>
+</div></section>
+</body>
+</html>
